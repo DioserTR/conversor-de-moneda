@@ -22,32 +22,23 @@ public class Principal {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ingrese la moneda que desea convertir: ");
         String tipoMoneda = scanner.nextLine();
-        String direccion = "https://v6.exchangerate-api.com/v6/ffc0cc3b4086110623160275/latest/" + tipoMoneda;
+        String apiKey = "ffc0cc3b4086110623160275";
 
 
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(direccion))
-                .build();
+        //Realizamos la conexion
+        Conexion conexion = new Conexion(apiKey,tipoMoneda);
 
-        HttpResponse<String> response = null;
-        try {
-            response = client
-                    .send(request, HttpResponse
-                            .BodyHandlers
-                            .ofString());
+        HttpClient client = conexion.getClient();
+        HttpResponse<String> response = conexion.getRequest();
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
+        //Clase
         //parseamos la respuesta con JSON
 
         JsonElement jsonElement = JsonParser.parseString(response.body());
         JsonObject jsonObject = jsonElement.getAsJsonObject();
 
+
+        //Clase
         //Extraemos base_code
         String basecode = jsonObject.get("base_code").getAsString();
 
