@@ -1,5 +1,6 @@
 package com.aluracursos.conversordemoneda;
 
+import com.aluracursos.conversordemoneda.calculos.CalculadoraMoneda;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,16 +13,27 @@ public class ObtenerDatos extends Conexion{
     private String basecode;
     private double tasaconversion;
 
+    public double getTasaconversion() {
+        return tasaconversion;
+    }
+
+    public void setTasaconversion(double tasaconversion) {
+        this.tasaconversion = tasaconversion;
+    }
+
     public String getBasecode() {
         return basecode;
     }
 
-    public Double getTasaconversion() {
-        return tasaconversion;
+
+
+    public ObtenerDatos(String apiKey, String monedaIngreso, String monedaSalida, double montoIngreso) {
+
+        super(apiKey, monedaIngreso, monedaSalida, montoIngreso);
+
     }
-    public ObtenerDatos(String apiKey, String monedaPrincipal) {
-        super(apiKey, monedaPrincipal);
-    }
+
+
 
     @Override
     public HttpResponse<String> getRequest() {
@@ -40,9 +52,18 @@ public class ObtenerDatos extends Conexion{
         //Tenemos el basecode
         this.basecode = object.get("base_code").getAsString();
         JsonObject conversionRates = object.getAsJsonObject("conversion_rates");
-        this.tasaconversion = conversionRates.get("PEN").getAsDouble();
+        this.tasaconversion = conversionRates.get(ObtenerDatos.this.getMonedaIngreso()).getAsDouble();
 
-        Moneda moneda = new Moneda(getBasecode(), getTasaconversion());
+        //Llamamos a la clase que va ha calcular los resulados
+        CalculadoraMoneda calculadoraMoneda = new CalculadoraMoneda();
+        calculadoraMoneda.calcularCambio(this);
+
+        Moneda moneda = new Moneda(getMonedaIngreso(),
+                getMonedaSalida(),
+                getMontoIngreso(),
+                getMontoSalida());
+//      System.out.println(this.tasaconversion);
+        //System.out.println(getMonedaIngreso()+ " " + getMonedaSalida() + " " + getMontoIngreso()+" " + getMontoSalida());
         System.out.println(moneda);
 
     }
