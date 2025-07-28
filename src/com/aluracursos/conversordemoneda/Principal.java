@@ -26,18 +26,23 @@ public class Principal {
 
 
         //Realizamos la conexion
-        Conexion conexion = new Conexion(apiKey,tipoMoneda);
+        //Conexion conexion = new Conexion(apiKey,tipoMoneda);
 
-        HttpClient client = conexion.getClient();
-        HttpResponse<String> response = conexion.getRequest();
+        //HttpClient client = conexion.getClient();
+        //HttpResponse<String> response = conexion.getRequest();
 
         //Clase
         //parseamos la respuesta con JSON
+        //JsonElement jsonElement = JsonParser.parseString(response.body());
+        //JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-        JsonElement jsonElement = JsonParser.parseString(response.body());
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        ObtenerDatos oDatos = new ObtenerDatos(apiKey,tipoMoneda);
+        //JsonObject jsonObject = obtenerDatos.ParseJsonObject();
+
+        oDatos.Resultado();
 
 
+/*
         //Clase
         //Extraemos base_code
         String basecode = jsonObject.get("base_code").getAsString();
@@ -63,10 +68,8 @@ public class Principal {
         //String monedaDestino = "PEN";
         //double tasa = respuesta.conversion_rates.get(monedaDestino);
 
-        //Moneda moneda = new Moneda(respuesta.base_code, tasa);
 
-        //System.out.println(moneda);
-
+*/
 
 
     }

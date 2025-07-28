@@ -1,16 +1,14 @@
 package com.aluracursos.conversordemoneda;
 
+import com.google.gson.JsonObject;
+
 import java.util.Map;
 
-public class RespuestaApi {
-    String base_code;
-    Map<String, Double> conversion_rates;
+public record RespuestaApi (String basecode, JsonObject conversionRates){
 
-    public String getBase_code() {
-        return base_code;
-    }
+    //String basecode;
+    //JsonObject conversionRates;
 
-    public Map<String, Double> getConversion_rates() {
-        return conversion_rates;
-    }
+
+
 }

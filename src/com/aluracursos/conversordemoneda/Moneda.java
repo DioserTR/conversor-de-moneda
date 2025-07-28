@@ -2,11 +2,13 @@ package com.aluracursos.conversordemoneda;
 
 import java.util.Map;
 
-public record Moneda(String result, double conversion_rates) {
+public record Moneda(String basecode, double conversion_rates) {
 
     @Override
     public String toString() {
-        return "Moneda: " + result +
-                ", Conversión=" + conversion_rates;
+        return "Moneda{" +
+                "basecode='" + basecode + '\'' +
+                ", conversion_rates=" + conversion_rates +
+                '}';
     }
 }
